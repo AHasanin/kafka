@@ -43,12 +43,13 @@ const run = async () => {
         creditCard,
         _id
       };
+      console.log(messageObj);
       if(messageObj.price > 200){
           console.log('inHere');
         await producer.send({
             topic: 'high-trans',
             messages: [
-            { value: JSON.stringify()},
+            { value: JSON.stringify(messageObj)},
             ],
         });
       }
