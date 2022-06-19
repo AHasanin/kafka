@@ -10,106 +10,70 @@ module.exports =  () =>{
           }
 
     })
-//     const admin = kafka.admin()
-//     admin.connect()
-//     .then(() => {
-//         // admin.createTopics({
-//         //     waitForLeaders: true,
-//         //     type: 'NOT_CONTROLLER',
-//         //     topics: [
-//         //         {
-//         //             topic: 'greeting',
-//         //         }
-//         //     ]
-//         // }).then(()=>{
-//         //     console.log('produce connect')
-//         //     connectProducer(kafka);
-//         // }).catch((err)=>{
-//         //     console.log('ssssssssssssssssssssss', err)
-//         // })
-//         connectProducer(kafka);       
-//     })
-//     .catch((error) => {
-//         console.log(error)
-//         logger.error("Admin Connection failed");
-       
-//     });
-  
 
-       
-// }
-
-// function connectProducer(kafka){
-//     global.kafkaProducer = kafka.producer()
-//     kafkaProducer.connect()
-//     .then(() => {
-//         logger.info("Producer Connected Successfully");
-//         kafkaProducer.send({
-//             topic: 'greeting',
-//             messages: [
-//               { value: JSON.stringify({name:'hello'})},
-//             ],
+function connectProducer(kafka){
+    global.kafkaProducer = kafka.producer()
+    kafkaProducer.connect()
+    .then(() => {
+        logger.info("Producer Connected Successfully");
+        kafkaProducer.send({
+            topic: 'greeting',
+            messages: [
+              { value: JSON.stringify({name:'hello'})},
+            ],
             
-//           })
-//     })
-//     .catch((error) => {
-//         console.log(error)
-//         logger.error("Producer Connection failed");
-//     });
-
+          })
+    })
+    .catch((error) => {
+        console.log(error)
+        logger.error("Producer Connection failed");
+    });
+}
 const consumer = kafka.consumer({ groupId: 'group1' })
+const producer = kafka.producer();
  
 const run = async () => {
-//   await producer.connect()
-//   await producer.send({
-//     topic: 'test-topic',
-//     messages: [
-//       { value: 'Hello KafkaJS user!' },
-//     ],
-//   })
+  await producer.connect();
  
   // Consuming
   await consumer.connect()
-  await consumer.subscribe({ topic: 'Order.events', fromBeginning: true })
+  await consumer.subscribe({ topic: 'Order.events', fromBeginning: true });
  
   await consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
       console.log({
         partition,
         offset: message.offset,
-        value: message.value.toString(),
-      })
+        value:  message.value.toString(),
+      });
+      const value = message.value.toString();
+      const userId = value.match(/userId=(.*?),/)[1];
+      const productId = value.match(/productId=(.*?),/)[1];
+      const status = value.match(/status=(.*?),/)[1];
+      const price = value.match(/price=(.*?),/)[1];
+      const creditCard = value.match(/creditCard=(.*?),/)[1];
+      const _id = value.match(/_id=(.*?)}/)[1];
+      const messageObj = {
+        userId,
+        productId,
+        status,
+        price,
+        creditCard,
+        _id
+      };
+      if(messageObj.price > 200){
+          console.log('inHere');
+        await producer.send({
+            topic: 'high-trans',
+            messages: [
+            { value: JSON.stringify()},
+            ],
+        });
+      }
+    
     },
   })
 }
  
 run().catch(console.error)
 }
-// const consumer = kafka.consumer({ groupId: 'test-group' })
- 
-// const run = async () => {
-//   // Producing
-//   await producer.connect()
-//   await producer.send({
-//     topic: 'test-topic',
-//     messages: [
-//       { value: 'Hello KafkaJS user!' },
-//     ],
-//   })
- 
-//   // Consuming
-//   await consumer.connect()
-//   await consumer.subscribe({ topic: 'test-topic', fromBeginning: true })
- 
-//   await consumer.run({
-//     eachMessage: async ({ topic, partition, message }) => {
-//       console.log({
-//         partition,
-//         offset: message.offset,
-//         value: message.value.toString(),
-//       })
-//     },
-//   })
-// }
- 
-// run().catch(console.error)
