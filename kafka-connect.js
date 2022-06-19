@@ -77,7 +77,7 @@ const run = async () => {
       console.log({
         partition,
         offset: message.offset,
-        value: message.value.toString(),
+        value: message.value,
       })
     },
   })
