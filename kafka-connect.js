@@ -79,6 +79,8 @@ const run = async () => {
         offset: message.offset,
         value: message.value,
       })
+        console.log(typeof x);
+        console.log(message.value.price)
     },
   })
 }
