@@ -77,11 +77,11 @@ const run = async () => {
       console.log({
         partition,
         offset: message.offset,
-        value: JSON.parse(message.value.toString()),
+        value: message.value.toString(),
       })
-        const val = JSON.parse(message.value.toString())
-        console.log(typeof val);
-        console.log(val.price)
+//         const val = JSON.parse(message.value.toString())
+//         console.log(typeof val);
+//         console.log(val.price)
     },
   })
 }
