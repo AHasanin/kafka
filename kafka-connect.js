@@ -79,7 +79,7 @@ const run = async () => {
         offset: message.offset,
         value: JSON.parse(message.value.toString()),
       })
-        cosnt val = JSON.parse(message.value.toString())
+        const val = JSON.parse(message.value.toString())
         console.log(typeof val);
         console.log(val.price)
     },
