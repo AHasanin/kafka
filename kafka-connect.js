@@ -11,24 +11,6 @@ module.exports =  () =>{
 
     })
 
-function connectProducer(kafka){
-    global.kafkaProducer = kafka.producer()
-    kafkaProducer.connect()
-    .then(() => {
-        logger.info("Producer Connected Successfully");
-        kafkaProducer.send({
-            topic: 'greeting',
-            messages: [
-              { value: JSON.stringify({name:'hello'})},
-            ],
-            
-          })
-    })
-    .catch((error) => {
-        console.log(error)
-        logger.error("Producer Connection failed");
-    });
-}
 const consumer = kafka.consumer({ groupId: 'group1' })
 const producer = kafka.producer();
  
