@@ -1,0 +1,17 @@
+{
+  "name": "inventoryservice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "kafka-streams": "^5.0.0",
+    "kafkajs": "^2.0.2",
+    "node-rdkafka": "^2.13.0"
+  }
+}
